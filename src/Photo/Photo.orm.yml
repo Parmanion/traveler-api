@@ -1,0 +1,72 @@
+App\Photo\Photo:
+    type: entity
+    repositoryClass: App\Photo\PhotoRepository
+    table: photo
+    indexes:
+        place:
+            columns:
+                - place
+    id:
+        id:
+            type: string
+            nullable: false
+            length: 17
+            options:
+                fixed: false
+            id: true
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: App\Core\UuidGenerator
+    fields:
+        name:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+        description:
+            type: text
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        datetimeUtc:
+            type: datetime
+            nullable: false
+            column: datetime_utc
+        datetimeLocal:
+            type: datetime
+            nullable: false
+            column: datetime_local
+        timezone:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+                default: Europe/Paris
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: updated_at
+    manyToOne:
+        place:
+            targetEntity: App\Place\Place
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                place:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

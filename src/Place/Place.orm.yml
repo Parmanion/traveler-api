@@ -1,0 +1,80 @@
+App\Place\Place:
+    type: entity
+    repositoryClass: App\Place\PlaceRepository
+    table: place
+    id:
+        id:
+            type: string
+            nullable: false
+            length: 17
+            options:
+                fixed: false
+            id: true
+            generator:
+                strategy: CUSTOM
+            customIdGenerator:
+                class: App\Core\UuidGenerator
+    fields:
+        kind:
+            type: string
+            nullable: false
+            length: 6
+            options:
+                fixed: false
+        name:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+        description:
+            type: text
+            nullable: true
+            length: 255
+            options:
+                fixed: false
+        datetimeStartUtc:
+            type: datetime
+            nullable: false
+            column: datetime_start_utc
+        datetimeStartLocal:
+            type: datetime
+            nullable: false
+            column: datetime_start_local
+        timezoneStart:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+                default: Europe/Paris
+            column: timezone_start
+        datetimeEndUtc:
+            type: datetime
+            nullable: false
+            column: datetime_end_utc
+        datetimeEndLocal:
+            type: datetime
+            nullable: false
+            column: datetime_end_local
+        timezoneEnd:
+            type: string
+            nullable: false
+            length: 50
+            options:
+                fixed: false
+                default: Europe/Paris
+            column: timezone_end
+        createdAt:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: created_at
+        updatedAt:
+            type: datetime
+            nullable: false
+            options:
+                default: CURRENT_TIMESTAMP
+            column: updated_at
+    lifecycleCallbacks: {  }
