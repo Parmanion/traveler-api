@@ -21,8 +21,10 @@ class AppFixtures extends Fixture
         $this->photoBasepath = getenv('PHOTOS_BASE_PATH');
         $pathOfPhotos =   ($this->photoBasepath);
         if($pathOfPhotos !== false && is_dir($pathOfPhotos)) {
+            // delete recursively all photos
             FileManipulation::delTree($pathOfPhotos);
         }
+        // create hexadecimal hash folder with a deepness of 3 levels
         FileManipulation::hexaHashFolder($pathOfPhotos, 3);
 
         // create 4 travel! Bam!
@@ -30,11 +32,13 @@ class AppFixtures extends Fixture
             $travel = $this->generateTravel();
             $manager->persist($travel);
 
+            // create between 2 to 5 step for each travel
             $nbStep = rand(2, 5);
             for ($j = 0; $j < $nbStep; $j++) {
                 $step = $this->generateStep($travel, $j);
                 $manager->persist($step);
 
+                // create 1 to 7 photos for each step
                 $nbPhoto = rand(1, 7);
                 for ($k = 0; $k < $nbPhoto; $k++) {
                     $photo = $this->generatePhoto($step, $k);

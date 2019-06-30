@@ -1,3 +1,11 @@
 controllers:
-    resource: ../../src/Controller/
+    resource: ../../src/Controller
+    type: annotation
+
+places:
+    resource: ../../src/Place
+    type: annotation
+
+photos:
+    resource: ../../src/Photo
     type: annotation

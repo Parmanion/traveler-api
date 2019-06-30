@@ -2,30 +2,76 @@
 
 namespace App\Place;
 
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @Gedmo\Tree(type="closure")
+ * @Gedmo\TreeClosure(class="App\Place\PlaceClosure")
+ * @ORM\Entity(repositoryClass="Gedmo\Tree\Entity\Repository\ClosureTreeRepository")
+ */
 class Place
 {
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\Column(type="string", length=17)
+     * @ORM\CustomIdGenerator(class="App\Core\UuidGenerator")
+     */
     private $id;
 
-    private $kind;
+    /**
+     * This parameter is optional for the closure strategy
+     *
+     * @ORM\Column(name="level", type="integer", nullable=true)
+     * @Gedmo\TreeLevel
+     */
+    private $level;
 
+    /**
+     * @Gedmo\TreeParent
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="CASCADE")
+     * @ORM\ManyToOne(targetEntity="Place", inversedBy="children")
+     */
+    private $parent;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     */
     private $name;
 
+    /**  @ORM\Column(type="text", nullable=true) */
     private $description;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=false)
+     */
     private $datetimeStartUtc;
-
+    /**  @ORM\Column(type="datetime", nullable=false) */
     private $datetimeStartLocal;
 
+    /**  @ORM\Column(type="string", length=50, options={"default": "Europe/Paris"}) */
     private $timezoneStart;
 
+    /**  @ORM\Column(type="datetime", nullable=false) */
     private $datetimeEndUtc;
 
+    /**  @ORM\Column(type="datetime", nullable=false) */
     private $datetimeEndLocal;
 
+    /**  @ORM\Column(type="string", length=50, options={"default": "Europe/Paris"}) */
     private $timezoneEnd;
 
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime", nullable=false, name="createdAt")
+     */
     private $createdAt;
 
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", nullable=false, name="updatedAt")
+     */
     private $updatedAt;
 
     public function getId(): ?string
@@ -33,14 +79,14 @@ class Place
         return $this->id;
     }
 
-    public function getKind(): ?string
+    public function getLevel(): ?int
     {
-        return $this->kind;
+        return $this->level;
     }
 
-    public function setKind(string $kind): self
+    public function setLevel(?int $level): self
     {
-        $this->kind = $kind;
+        $this->level = $level;
 
         return $this;
     }
@@ -164,4 +210,18 @@ class Place
 
         return $this;
     }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+    
+
 }

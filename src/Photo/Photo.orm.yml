@@ -49,15 +49,17 @@ App\Photo\Photo:
         createdAt:
             type: datetime
             nullable: false
-            options:
-                default: CURRENT_TIMESTAMP
-            column: created_at
+            gedmo:
+                timestampable:
+                    on: create
+            column: createdAt
         updatedAt:
             type: datetime
             nullable: false
-            options:
-                default: CURRENT_TIMESTAMP
-            column: updated_at
+            gedmo:
+                timestampable:
+                    on: update
+            column: updatedAt
     manyToOne:
         place:
             targetEntity: App\Place\Place
